@@ -1,25 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from 'react'
+import useGetUploadedImages from './hooks/useGetUploadedImages'
+import ImageUpload from './components/ImageUpload'
+import UploadedImages from './components/UploadedImages'
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const [{ uploadedImages, loading  }, refetch] = useGetUploadedImages()
+
+	useEffect(() => {
+		refetch()
+	}, [refetch])
+
+	return (
+		<>
+			<h2>React File Upload</h2>
+			<ImageUpload onUploadSucces={refetch} />
+			<UploadedImages images={uploadedImages} isLoading={loading} />
+		</>
+	)
 }
 
-export default App;
+export default App
